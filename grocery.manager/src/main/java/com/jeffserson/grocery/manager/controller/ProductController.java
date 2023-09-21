@@ -1,7 +1,6 @@
 package com.jeffserson.grocery.manager.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,58 +13,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jeffserson.grocery.manager.entities.Product;
-import com.jeffserson.grocery.manager.repositry.ProductRepository;
+import com.jeffserson.grocery.manager.service.ProductService;
 
 @RestController
 public class ProductController {
 
-	private ProductRepository productRepository;
+  private ProductService productService;
 
-	public ProductController(ProductRepository productRepository) {
-		this.productRepository = productRepository;
-	}
+  public ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
-	@PostMapping("/newProduct")
-	public ResponseEntity<Product> saveProduct(@RequestBody Product product) throws Exception {
-		productRepository.save(product);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+  @PostMapping("/newProduct")
+  public ResponseEntity<Product> saveProduct(@RequestBody Product product) throws Exception {
+    return productService.saveProduct(product);
+  }
 
-	@GetMapping("/getAllProducts")
-	public List<Product> getAllProducts() {
-		return productRepository.findAll();
-	}
+  @GetMapping("/getAllProducts")
+  public List<Product> getAllProducts() {
+    return productService.findAllProducts();
+  }
 
-	@GetMapping("/getProduct/{id}")
-	public Product getProductById(@PathVariable Long id) {
-		Optional<Product> product = productRepository.findById(id);
-		if (product.isPresent()) {
-			return product.get();
-		}
-		return null;
-	}
+  @GetMapping("/getProduct/{id}")
+  public Product getProductById(@PathVariable Long id) {
+    return productService.findProductById(id);
+  }
 
-	@DeleteMapping("/deleteProduct/{id}")
-	public ResponseEntity<HttpStatus> deleteProuctById(@PathVariable Long id) {
-		productRepository.deleteById(id);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-	}
+  @DeleteMapping("/deleteProduct/{id}")
+  public ResponseEntity<HttpStatus> deleteProuctById(@PathVariable Long id) {
+    return productService.deleteProductById(id);
+  }
 
-	@DeleteMapping("/deleteAll")
-	public ResponseEntity<HttpStatus> deleteAll() {
-		productRepository.deleteAll();
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-	}
+  @DeleteMapping("/deleteAll")
+  public ResponseEntity<HttpStatus> deleteAll() {
+    return productService.deleteAllProducts();
+  }
 
-	@PutMapping("/updateProduct/{id}")
-	public ResponseEntity<Product> updateProductById(@PathVariable Long id, @RequestBody Product product) {
-		Product pro = new Product();
-		pro.setName(product.getName());
-		pro.setCategory(product.getCategory());
-		pro.setBarCode(product.getBarCode());
-		pro.setExpirationDate(product.getExpirationDate());
-		productRepository.save(product);
-		return new ResponseEntity<Product>(pro, HttpStatus.OK);
-	}
+  @PutMapping("/updateProduct/{id}")
+  public ResponseEntity<HttpStatus> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    return productService.updateProductById(id, product);
+  }
 
 }

@@ -14,7 +14,7 @@ This project was developed using a variety of cutting-edge technologies to provi
 
 - **Docker:** The entire application is containerized using Docker, making it easy to deploy and manage across different environments.
 
-## Features
+## Features 
 
 - **Product Management:** 
   - Register new products with detailed information including name, price, quantity, and more.
@@ -49,7 +49,7 @@ To get the Grocery Store Management System up and running on your local machine 
 
 5. **Access the Application:** 
    - Once the application is running, access it in your web browser by navigating to `http://localhost:3000` (or the specified port).
-   
+
 ## License
 
 This project is licensed under the [License Name] License - see the [LICENSE](LICENSE) file for details.
